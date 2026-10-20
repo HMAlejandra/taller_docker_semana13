@@ -1,0 +1,315 @@
+# ========================================
+# COMANDOS RÁPIDOS - TALLER DOCKER SEMANA 13
+# Estudiante ID: 883413
+# ========================================
+
+# ========================================
+# 1. CONSTRUCCIÓN
+# ========================================
+
+# Construir imagen con ID de estudiante
+docker build --build-arg STUDENT_ID="883413" -t eco-air-backend:1.0.0 .
+
+# Ver imágenes creadas
+docker images | grep eco-air
+
+# ========================================
+# 2. EJECUCIÓN NORMAL
+# ========================================
+
+# Iniciar contenedor en puerto 8080
+docker run -d --name eco_air_active -p 8080:8080 eco-air-backend:1.0.0
+
+# Ver logs
+docker logs eco_air_active
+
+# Ver logs con timestamps
+docker logs --timestamps eco_air_active
+
+# Seguir logs en tiempo real
+docker logs -f eco_air_active
+
+# Ver últimas 50 líneas
+docker logs --tail 50 eco_air_active
+
+# ========================================
+# 3. PRUEBAS DE ENDPOINTS
+# ========================================
+
+# Endpoint principal
+curl http://localhost:8080
+
+# Health check
+curl http://localhost:8080/health
+
+# Alertas
+curl http://localhost:8080/alerts
+
+# Con formato bonito (si tienes jq)
+curl http://localhost:8080 | jq
+
+# ========================================
+# 4. RETO 2 - AUDITORÍA FORENSE
+# ========================================
+
+# 4.1 Verificación de capas
+docker history --human --format "table {{.Size}}\t{{.CreatedBy}}" eco-air-backend:1.0.0
+
+# 4.2 Inspección de privilegios
+docker top eco_air_active -o pid,user,comm
+
+# 4.3 Test de inmutabilidad
+docker exec eco_air_active touch /etc/crontab_fake
+
+# 4.4 Verificar ausencia de Maven
+docker exec eco_air_active which mvn
+
+# 4.5 Buscar archivos .java
+docker exec eco_air_active find / -name "*.java" 2>/dev/null
+
+# ========================================
+# 5. TABLA DE IDENTIDAD
+# ========================================
+
+# Hash de la imagen
+docker inspect --format='{{.Id}}' eco-air-backend:1.0.0
+
+# Variable de entorno OPERATOR_ID
+docker exec eco_air_active env | grep OPERATOR_ID
+
+# Ver todas las variables de entorno
+docker exec eco_air_active env
+
+# ========================================
+# 6. RETO 3 - CGROUPS Y OOM
+# ========================================
+
+# 6.1 Inducir OOMKilled con 48MB
+docker run -d --name eco_air_crash -m 48m eco-air-backend:1.0.0
+sleep 15
+docker inspect eco_air_crash --format='Status: {{.State.Status}} | ExitCode: {{.State.ExitCode}} | OOMKilled: {{.State.OOMKilled}}'
+
+# Ver logs del crash
+docker logs eco_air_crash
+
+# 6.2 Pruebas de calibración
+
+# Con 256MB
+docker rm -f eco_air_active
+docker run -d --name eco_air_active -m 256m -p 8080:8080 eco-air-backend:1.0.0
+sleep 20
+docker logs --timestamps eco_air_active | grep "Started EcoAirApplication"
+docker stats --no-stream eco_air_active
+
+# Con 384MB
+docker rm -f eco_air_active
+docker run -d --name eco_air_active -m 384m -p 8080:8080 eco-air-backend:1.0.0
+sleep 20
+docker logs --timestamps eco_air_active | grep "Started EcoAirApplication"
+docker stats --no-stream eco_air_active
+
+# Con 512MB
+docker rm -f eco_air_active
+docker run -d --name eco_air_active -m 512m -p 8080:8080 eco-air-backend:1.0.0
+sleep 20
+docker logs --timestamps eco_air_active | grep "Started EcoAirApplication"
+docker stats --no-stream eco_air_active
+
+# Stats en tiempo real (Ctrl+C para salir)
+docker stats eco_air_active
+
+# ========================================
+# 7. INSPECCIÓN DETALLADA
+# ========================================
+
+# Ver configuración completa del contenedor
+docker inspect eco_air_active
+
+# Ver solo la configuración de memoria
+docker inspect eco_air_active --format='Memory: {{.HostConfig.Memory}}'
+
+# Ver información del estado
+docker inspect eco_air_active --format='{{json .State}}' | jq
+
+# Ver procesos dentro del contenedor
+docker top eco_air_active
+
+# Acceder al shell del contenedor (sh en Alpine)
+docker exec -it eco_air_active sh
+
+# Dentro del contenedor, comandos útiles:
+# whoami                    # Debe mostrar sensor_user
+# id                        # Debe mostrar UID 10001
+# ps aux                    # Ver procesos
+# ls -la /app               # Ver archivos de la aplicación
+# env | grep OPERATOR       # Ver variable inyectada
+# exit                      # Salir
+
+# ========================================
+# 8. GESTIÓN DE CONTENEDORES
+# ========================================
+
+# Listar contenedores activos
+docker ps
+
+# Listar todos los contenedores (incluidos detenidos)
+docker ps -a
+
+# Detener contenedor
+docker stop eco_air_active
+
+# Iniciar contenedor detenido
+docker start eco_air_active
+
+# Reiniciar contenedor
+docker restart eco_air_active
+
+# Eliminar contenedor (debe estar detenido)
+docker rm eco_air_active
+
+# Eliminar contenedor forzado (aunque esté corriendo)
+docker rm -f eco_air_active
+
+# Eliminar todos los contenedores relacionados
+docker rm -f eco_air_active eco_air_crash
+
+# ========================================
+# 9. GESTIÓN DE IMÁGENES
+# ========================================
+
+# Listar imágenes
+docker images
+
+# Ver tamaño de la imagen
+docker images eco-air-backend:1.0.0 --format '{{.Size}}'
+
+# Eliminar imagen (debe eliminar contenedores primero)
+docker rmi eco-air-backend:1.0.0
+
+# Forzar eliminación
+docker rmi -f eco-air-backend:1.0.0
+
+# ========================================
+# 10. AUDITORÍA AUTOMATIZADA
+# ========================================
+
+# Dar permisos de ejecución al script
+chmod +x run_audit.sh
+
+# Ejecutar script y guardar salida
+./run_audit.sh | tee audit_session.log
+
+# Ver el log generado
+cat audit_session.log
+
+# Ver solo errores del log
+grep -i error audit_session.log
+
+# ========================================
+# 11. LIMPIEZA COMPLETA
+# ========================================
+
+# Detener todos los contenedores del proyecto
+docker stop $(docker ps -a -q --filter name=eco_air)
+
+# Eliminar todos los contenedores del proyecto
+docker rm $(docker ps -a -q --filter name=eco_air)
+
+# Eliminar imagen
+docker rmi eco-air-backend:1.0.0
+
+# Limpieza general de Docker (cuidado, elimina todo lo no usado)
+docker system prune -a
+
+# Ver espacio usado por Docker
+docker system df
+
+# ========================================
+# 12. DEBUGGING
+# ========================================
+
+# Ver eventos de Docker en tiempo real
+docker events --filter 'container=eco_air_active'
+
+# Ver uso de recursos en tiempo real
+docker stats
+
+# Inspeccionar red
+docker network inspect bridge
+
+# Ver configuración de límites de recursos
+docker inspect eco_air_active --format='Memory: {{.HostConfig.Memory}} | CPUs: {{.HostConfig.NanoCpus}}'
+
+# Ver logs del daemon de Docker (Linux)
+sudo journalctl -u docker -f
+
+# ========================================
+# 13. EXPORTAR/IMPORTAR
+# ========================================
+
+# Exportar imagen a archivo tar
+docker save eco-air-backend:1.0.0 -o eco-air-backend.tar
+
+# Importar imagen desde archivo tar
+docker load -i eco-air-backend.tar
+
+# Exportar contenedor (filesystem)
+docker export eco_air_active -o eco-air-container.tar
+
+# ========================================
+# 14. CREAR ARCHIVO DE ENTREGA
+# ========================================
+
+# Opción 1: tar.gz
+tar -czf taller_docker_semana13.tar.gz \
+  Dockerfile \
+  .dockerignore \
+  pom.xml \
+  src/ \
+  audit_session.log \
+  FORENSIC_REPORT.md \
+  README.md
+
+# Opción 2: zip
+zip -r taller_docker_semana13.zip \
+  Dockerfile \
+  .dockerignore \
+  pom.xml \
+  src/ \
+  audit_session.log \
+  FORENSIC_REPORT.md \
+  README.md
+
+# Ver contenido del archivo
+tar -tzf taller_docker_semana13.tar.gz
+
+# ========================================
+# 15. VERIFICACIÓN FINAL
+# ========================================
+
+# Checklist rápido
+echo "=== CHECKLIST FINAL ==="
+echo "1. Imagen construida:"
+docker images eco-air-backend:1.0.0
+
+echo "2. Contenedor corriendo:"
+docker ps | grep eco_air_active
+
+echo "3. Endpoint funciona:"
+curl -s http://localhost:8080 | grep -q "OPERATIONAL" && echo "✅ OK" || echo "❌ ERROR"
+
+echo "4. OPERATOR_ID inyectado:"
+docker exec eco_air_active env | grep OPERATOR_ID
+
+echo "5. Usuario sin privilegios:"
+docker top eco_air_active -o user | grep -q sensor_user && echo "✅ OK" || echo "❌ ERROR"
+
+# ========================================
+# NOTAS IMPORTANTES
+# ========================================
+
+# - Todos los comandos asumen que estás en el directorio raíz del proyecto
+# - Si cambias el nombre del contenedor, ajusta los comandos
+# - El puerto 8080 debe estar libre en tu máquina
+# - Para WSL2: asegúrate de que Docker Desktop esté corriendo
+# - Los comandos con 'sudo' solo son necesarios si no configuraste Docker para tu usuario

@@ -1,0 +1,143 @@
+================================================================
+   ✅ RESUMEN FINAL - LISTO PARA ENTREGAR
+   Estudiante ID: 883413
+   Fecha: 2026-10-20
+================================================================
+
+📦 ARCHIVOS OBLIGATORIOS COMPLETADOS:
+
+✅ Dockerfile (1.5 KB)
+   - Construcción multietapa con Maven + JRE
+   - Usuario sensor_user (UID 10001)
+   - Variable OPERATOR_ID=883413 inyectada
+   - Optimizaciones JVM container-aware
+
+✅ .dockerignore (603 bytes)
+   - Exclusiones optimizadas para build
+   - Reduce contexto de Docker
+
+✅ pom.xml (2 KB)
+   - Spring Boot 3.1.5
+   - Java 17
+   - Dependencias: web, jpa, h2, actuator
+
+✅ src/ (código fuente completo)
+   - EcoAirApplication.java
+   - application.properties
+   - Estructura Maven correcta
+
+✅ audit_session.log (6.8 KB)
+   - Salida completa de auditoría
+   - Todos los comandos ejecutados
+
+✅ FORENSIC_REPORT.md (9.5 KB) ⭐ COMPLETADO
+   - Hash de imagen: sha256:fd0ffc56a3f9...
+   - OPERATOR_ID verificado: 883413
+   - Usuario sin privilegios: UID 10001 ✅
+   - Test de inmutabilidad: Permission denied ✅
+   - Maven ausente: ✅
+   - Calibración de memoria: 256MB funcional ✅
+   - Tiempo de inicio: 7.038 segundos ✅
+   - Uso de memoria: 171.1 MiB / 256 MiB (66.85%)
+
+✅ README.md (6.3 KB)
+   - Documentación completa del proyecto
+
+================================================================
+   🎯 RETOS COMPLETADOS
+================================================================
+
+✅ RETO 1: Construcción Multietapa con Huella Estricta
+   - Dockerfile optimizado
+   - Usuario sin privilegios
+   - ID 883413 inyectado
+   - Variables JVM configuradas
+
+✅ RETO 2: Auditoría Forense y Comprobación de Vulnerabilidades
+   2.1 ✅ Verificación de capas - Imagen 445MB
+   2.2 ✅ Inspección de privilegios - Usuario 10001
+   2.3 ✅ Test de inmutabilidad - Permission denied
+   2.4 ✅ Auditoría de artefactos - Maven ausente
+
+✅ RETO 3: Calibración de cgroups y Captura del Asesino OOM
+   3.1 ✅ OOM con 48MB - Insuficiente
+   3.2 ✅ Calibración: 256MB funcional (7s inicio)
+
+================================================================
+   📊 MÉTRICAS FINALES
+================================================================
+
+Imagen Docker:
+   ✅ Nombre: eco-air-backend:1.0.0
+   ✅ Tamaño: 445 MB
+   ✅ Hash: sha256:fd0ffc56a3f9f16c3ed1529fe33652a3cdd585717ef34946ba65c0073ac80bba
+
+Contenedor:
+   ✅ Usuario: 10001 (sensor_user)
+   ✅ Memoria mínima: 256 MB
+   ✅ Uso real: 171.1 MiB (66.85%)
+   ✅ Tiempo inicio: 7.038 segundos
+   ✅ CPU: 0.31%
+   ✅ Procesos: 30
+
+Endpoints funcionando:
+   ✅ GET / → operator_id=883413
+   ✅ GET /health → status UP
+   ✅ GET /alerts → estadísticas
+
+Seguridad:
+   ✅ Sin privilegios root
+   ✅ Sin Maven en imagen final
+   ✅ Sin código fuente
+   ✅ Inmutabilidad verificada
+
+================================================================
+   📦 CREAR ARCHIVO DE ENTREGA
+================================================================
+
+OPCIÓN 1 (Desde WSL/Linux):
+   chmod +x crear_entrega.sh
+   ./crear_entrega.sh
+
+OPCIÓN 2 (Manual):
+   tar -czf taller_docker_semana13.tar.gz \
+     Dockerfile .dockerignore pom.xml src/ \
+     audit_session.log FORENSIC_REPORT.md README.md
+
+OPCIÓN 3 (Desde Windows con 7-Zip):
+   - Seleccionar archivos: Dockerfile, .dockerignore, pom.xml, 
+     src/, audit_session.log, FORENSIC_REPORT.md, README.md
+   - Click derecho → 7-Zip → "Agregar al archivo..."
+   - Nombre: taller_docker_semana13.zip
+
+================================================================
+   ✅ VERIFICACIÓN FINAL
+================================================================
+
+✅ Dockerfile multietapa implementado
+✅ .dockerignore configurado
+✅ Usuario sin privilegios funcionando
+✅ Variable OPERATOR_ID=883413 inyectada
+✅ Imagen construida exitosamente
+✅ Todos los comandos forenses ejecutados
+✅ FORENSIC_REPORT.md completado con evidencias
+✅ audit_session.log generado
+✅ Endpoints probados y funcionando
+
+================================================================
+   🎉 ¡TODO LISTO PARA ENTREGAR!
+================================================================
+
+Estado: COMPLETO ✅
+Tiempo empleado: ~30 minutos
+Calidad: ALTA - Todas las evidencias documentadas
+
+PRÓXIMO PASO:
+   ./crear_entrega.sh
+
+RESULTADO:
+   taller_docker_semana13.tar.gz
+
+¡Éxito con tu entrega! 🚀
+
+================================================================

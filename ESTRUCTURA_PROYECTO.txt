@@ -1,0 +1,251 @@
+================================================================
+   ESTRUCTURA DEL PROYECTO - TALLER DOCKER SEMANA 13
+   Estudiante ID: 883413
+================================================================
+
+taller-docker-semana13/
+│
+├── 📘 DOCUMENTACIÓN
+│   ├── EMPEZAR_AQUI.md                    ← ⭐ EMPIEZA AQUÍ PRIMERO
+│   ├── README.md                          ← Documentación principal
+│   ├── RESUMEN_PROYECTO.md                ← Vista global completa
+│   ├── INSTRUCCIONES_PASO_A_PASO.md       ← Guía detallada (15 pasos)
+│   ├── INDICE_DOCUMENTACION.md            ← Guía de todos los archivos
+│   └── comandos_rapidos.txt               ← Cheatsheet de comandos
+│
+├── 🤖 SCRIPTS AUTOMATIZADOS
+│   ├── run_audit.sh                       ← Auditoría completa (ejecutar)
+│   ├── VERIFICACION_RAPIDA.sh             ← Verificación pre-entrega
+│   └── ESTRUCTURA_PROYECTO.txt            ← Este archivo
+│
+├── 🐳 CONFIGURACIÓN DOCKER
+│   ├── Dockerfile                         ← Build multietapa ✅
+│   └── .dockerignore                      ← Exclusiones de build ✅
+│
+├── ⚙️  CONFIGURACIÓN JAVA/MAVEN
+│   └── pom.xml                            ← Dependencias Spring Boot ✅
+│
+├── 📂 CÓDIGO FUENTE
+│   └── src/
+│       └── main/
+│           ├── java/
+│           │   └── com/
+│           │       └── ecoair/
+│           │           └── EcoAirApplication.java  ← App Spring Boot ✅
+│           └── resources/
+│               └── application.properties  ← Configuración ✅
+│
+└── 📝 ARCHIVOS DE ENTREGA
+    ├── FORENSIC_REPORT.md                 ← COMPLETAR con evidencias
+    └── audit_session.log                  ← Se genera con run_audit.sh
+
+================================================================
+   ARCHIVOS CREADOS CORRECTAMENTE
+================================================================
+
+✅ CONFIGURACIÓN (3 archivos)
+   - Dockerfile
+   - .dockerignore
+   - pom.xml
+
+✅ CÓDIGO FUENTE (2 archivos)
+   - EcoAirApplication.java
+   - application.properties
+
+✅ DOCUMENTACIÓN (6 archivos)
+   - EMPEZAR_AQUI.md
+   - README.md
+   - RESUMEN_PROYECTO.md
+   - INSTRUCCIONES_PASO_A_PASO.md
+   - INDICE_DOCUMENTACION.md
+   - comandos_rapidos.txt
+
+✅ SCRIPTS (2 archivos)
+   - run_audit.sh
+   - VERIFICACION_RAPIDA.sh
+
+✅ REPORTES (1 archivo)
+   - FORENSIC_REPORT.md (plantilla)
+
+================================================================
+   PRÓXIMOS PASOS
+================================================================
+
+1️⃣  LEER:
+    cat EMPEZAR_AQUI.md
+
+2️⃣  EJECUTAR (desde WSL2/Linux/macOS):
+    chmod +x run_audit.sh VERIFICACION_RAPIDA.sh
+    ./run_audit.sh | tee audit_session.log
+
+3️⃣  COMPLETAR:
+    nano FORENSIC_REPORT.md
+    (copiar evidencias de audit_session.log)
+
+4️⃣  VERIFICAR:
+    ./VERIFICACION_RAPIDA.sh
+
+5️⃣  ENTREGAR:
+    tar -czf taller_docker_semana13.tar.gz \
+      Dockerfile .dockerignore pom.xml src/ \
+      audit_session.log FORENSIC_REPORT.md README.md
+
+================================================================
+   CARACTERÍSTICAS DEL PROYECTO
+================================================================
+
+🐳 DOCKERFILE MULTIETAPA
+   - Etapa 1: Builder (Maven + JDK)
+   - Etapa 2: Runtime (JRE only)
+   - Usuario: sensor_user (UID 10001)
+   - Tamaño final: ~200-250 MB
+
+🔐 SEGURIDAD
+   - Sin privilegios root
+   - Sin herramientas de desarrollo en producción
+   - Sin código fuente en imagen final
+   - Inmutabilidad del filesystem
+
+🎯 RETOS IMPLEMENTADOS
+   ✅ Reto 1: Construcción Multietapa
+   ✅ Reto 2: Auditoría Forense (4 pruebas)
+   ✅ Reto 3: Calibración cgroups + OOM
+
+📊 ENDPOINTS
+   - GET /          → Información del servicio
+   - GET /health    → Health check
+   - GET /alerts    → Estadísticas de alertas
+
+🆔 IDENTIFICACIÓN
+   - Student ID: 883413
+   - Variable: OPERATOR_ID=883413
+   - Proyecto: eco-air-backend
+
+================================================================
+   COMANDOS RÁPIDOS
+================================================================
+
+# Construir imagen
+docker build --build-arg STUDENT_ID="883413" -t eco-air-backend:1.0.0 .
+
+# Ejecutar contenedor
+docker run -d --name eco_air_active -p 8080:8080 eco-air-backend:1.0.0
+
+# Probar endpoint
+curl http://localhost:8080
+
+# Ver logs
+docker logs eco_air_active
+
+# Verificar usuario
+docker top eco_air_active -o pid,user,comm
+
+# Ver estadísticas
+docker stats --no-stream eco_air_active
+
+# Limpiar
+docker rm -f eco_air_active eco_air_crash
+docker rmi eco-air-backend:1.0.0
+
+================================================================
+   ARCHIVOS PARA ENTREGAR
+================================================================
+
+✅ OBLIGATORIOS:
+   - Dockerfile
+   - .dockerignore
+   - pom.xml
+   - src/ (carpeta completa)
+   - audit_session.log
+   - FORENSIC_REPORT.md
+
+⭐ OPCIONALES (recomendados):
+   - README.md
+
+❌ NO INCLUIR:
+   - Archivos .md de instrucciones
+   - Scripts .sh
+   - .vscode/
+   - target/
+
+================================================================
+   TIEMPO ESTIMADO
+================================================================
+
+⚡ OPCIÓN AUTOMÁTICA (recomendada):
+   - Ejecutar scripts:    10 min
+   - Completar reporte:   15 min
+   - Verificar:           5 min
+   - TOTAL:              ~30 min
+
+🔧 OPCIÓN MANUAL (educativa):
+   - Seguir guía:        30 min
+   - Ejecutar comandos:  15 min
+   - Documentar:         15 min
+   - TOTAL:             ~60 min
+
+================================================================
+   NOTAS IMPORTANTES
+================================================================
+
+⚠️  REQUISITOS:
+    - Docker instalado y corriendo
+    - WSL2 (si usas Windows)
+    - Puerto 8080 disponible
+    - Acceso a bash/shell
+
+⚠️  PERMISOS EN LINUX:
+    chmod +x run_audit.sh VERIFICACION_RAPIDA.sh
+
+⚠️  ID DEL ESTUDIANTE:
+    El ID 883413 está pre-configurado en todos los archivos
+
+================================================================
+   RECURSOS Y AYUDA
+================================================================
+
+📖 Documentación Docker:
+   https://docs.docker.com/
+
+📖 Spring Boot + Docker:
+   https://spring.io/guides/gs/spring-boot-docker/
+
+📖 Docker Resource Constraints:
+   https://docs.docker.com/config/containers/resource_constraints/
+
+🆘 Problemas comunes:
+   - Ver sección "Solución de Problemas" en README.md
+   - Ejecutar VERIFICACION_RAPIDA.sh para diagnóstico
+
+================================================================
+   VERIFICACIÓN DEL PROYECTO
+================================================================
+
+✅ Todos los archivos necesarios están creados
+✅ ID de estudiante 883413 configurado correctamente
+✅ Dockerfile multietapa implementado
+✅ Usuario sin privilegios configurado
+✅ Aplicación Spring Boot funcional
+✅ Scripts de auditoría listos
+✅ Documentación completa
+
+================================================================
+   ESTADO: ✅ PROYECTO COMPLETO Y LISTO PARA EJECUTAR
+================================================================
+
+⏰ Fecha de creación: Octubre 2026
+👤 Estudiante ID: 883413
+📦 Proyecto: eco-air-backend
+🎯 Taller: Docker Semana 13
+
+================================================================
+   ¡EMPEZAR AHORA!
+================================================================
+
+Abre una terminal en WSL2/Linux/macOS y ejecuta:
+
+cd /home/helen/taller-docker-semana13
+cat EMPEZAR_AQUI.md
+./run_audit.sh | tee audit_session.log
+
+================================================================

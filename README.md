@@ -245,14 +245,9 @@ docker run -d --name eco_air_active -m 768m -p 8080:8080 eco-air-backend:1.0.0
 - [Docker Resource Constraints](https://docs.docker.com/config/containers/resource_constraints/)
 - [Java Container Memory](https://developers.redhat.com/articles/2022/04/19/java-17-whats-new-openjdks-container-awareness)
 
----
 
 ## ✉️ Contacto
 
 **Estudiante ID:** 883413  
 **Proyecto:** eco-air-backend  
 **Fecha:** Octubre 2026
-
----
-
-**🎯 ¡Buena suerte con el taller!**
